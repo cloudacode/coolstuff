@@ -436,3 +436,7 @@ http://WEB_SERVER_IP/demo/testdb.jsp
 ![3tier-result](images/3tier-result.png)
 
 Congratulations, you have completed WEB, WAS, DB tutorial
+
+## Reference
+- https://www.digitalocean.com/community/questions/apache-virtual-host-with-multiple-tomcat-server
+- https://github.com/redisson/redisson/wiki/2.-Configuration#221-yaml-file-based-configuration
