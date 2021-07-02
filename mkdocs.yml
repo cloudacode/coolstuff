@@ -15,5 +15,7 @@ theme:
 # Page tree
 nav:
   - Home: index.md
+  - Tutorial: 
+    - apache-tomcat-redis/index.md
   - About: about.md
 
