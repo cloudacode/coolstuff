@@ -11,3 +11,7 @@ edit_uri: ""
 # Configuration
 theme:
   name: material
+
+# Page tree
+nav:
+  - Home: index.md
