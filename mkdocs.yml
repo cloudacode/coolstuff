@@ -9,9 +9,10 @@ repo_url: https://github.com/cloudacode/coolstuff
 edit_uri: ""
 
 # Configuration
-theme:
-  name: material
+theme: readthedocs
 
 # Page tree
 nav:
   - Home: index.md
+  - About: about.md
+
