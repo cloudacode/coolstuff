@@ -1,7 +1,6 @@
 # third-party imports
 import pymysql
-from flask import jsonify, flash, render_template, request, redirect
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import jsonify, render_template, request, redirect
 
 # local imports
 from app import app
@@ -44,14 +43,11 @@ def add_user():
 
 			_name = req['name']
 			_email = req['email']
-			_password = req['password']
 			_bio = req['bio']
 		
-		if _name and _email and _password and request.method == 'POST':
-			#do not save password as a plain text
-			_hashed_password = generate_password_hash(_password)
-			sql = "INSERT INTO cloud_user(user_name, user_email, user_password, user_bio) VALUES(%s, %s, %s, %s)"
-			data = (_name, _email, _hashed_password, _bio,)
+		if _name and _email and request.method == 'POST':
+			sql = "INSERT INTO cloud_user(user_name, user_email, user_bio) VALUES(%s, %s, %s)"
+			data = (_name, _email, _bio,)
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
