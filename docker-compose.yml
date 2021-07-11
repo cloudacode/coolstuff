@@ -1,0 +1,17 @@
+version: "2"
+services:
+  my-mariadb:
+    image: cloudacode/mariadb:v1.1.0
+    ports:
+      - "3306:3306" 
+  my-flask-app:
+    links: 
+      - my-mariadb
+    image: cloudacode/cloudflask:v1.1.0
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=mysecret
+      - DB_NAME=cloud_user
+      - DB_HOST=my-mariadb
