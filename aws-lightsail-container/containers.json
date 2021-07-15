@@ -1,0 +1,8 @@
+{
+    "flask": {
+        "image": ":devops-flask-service.flask-container.X",
+        "ports": {
+            "8000": "HTTP"
+        }
+    }
+}
