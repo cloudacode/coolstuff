@@ -1,4 +1,6 @@
 
+install AWS CLI, Lightsail plugin
+https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software#install-software-aws-cli
 
 ```bash
 aws lightsail create-container-service --service-name devops-flask-service --power small --scale 1
