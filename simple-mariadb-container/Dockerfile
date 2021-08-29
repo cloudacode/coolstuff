@@ -1,6 +1,6 @@
 FROM mariadb:latest
 
 ENV MYSQL_ROOT_PASSWORD=mysecret
-ENV MYSQL_DATABASE=cloud_user
+ENV MYSQL_DATABASE=todo
 
-COPY *.sql /docker-entrypoint-initdb.d/
+COPY init-table-todo.sql /docker-entrypoint-initdb.d/
