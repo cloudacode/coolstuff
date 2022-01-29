@@ -4,9 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
+#using external database like mysql or mariadb
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = ("mysql+pymysql://"+ os.environ['DB_USER'] + ":" + os.environ['DB_PASSWORD']+ "@" + os.environ['DB_HOST'] + ":3306/" + os.environ['DB_NAME'])
-#app.config['SQLALCHEMY_DATABASE_URI'] = ("mysql+pymysql://root:mysecret@127.0.0.1:3306/todo")
+#If you are using local sqlite as original freecodecamp, you need to enable
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
 db = SQLAlchemy(app)
 
@@ -66,4 +68,5 @@ def update(id):
 
 
 if __name__ == "__main__":
+    #in order to access from outside of server, allow anywhere 0.0.0.0
     app.run(debug=True, host='0.0.0.0')
