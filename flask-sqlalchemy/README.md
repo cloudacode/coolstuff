@@ -2,6 +2,8 @@
 
 Official docs: https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/ 
 
+SQLite cli docs: https://sqlite.org/cli.html
+
 - Create DB via sqlalchemy orm
 
     ```bash
