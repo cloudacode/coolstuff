@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app
+  labels:
+    app: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+      - image: cloudacode/python-todo:v1.1.0
+        imagePullPolicy: Always
+        name: todo-app
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        env:
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          value: mysecret
+        - name: DB_NAME
+          value: todo
+        - name: DB_HOST
+          value: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-svc
+spec:
+  selector:
+    app: todo-app
+  ports:
+   -  protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
