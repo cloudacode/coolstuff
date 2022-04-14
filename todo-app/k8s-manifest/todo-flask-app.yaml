@@ -12,8 +12,8 @@ spec:
       app: todo-app
   strategy:
     rollingUpdate:
-      maxSurge: 20%
-      maxUnavailable: 20%
+      maxSurge: 1
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
@@ -24,6 +24,15 @@ spec:
       - image: cloudacode/python-todo:v1.1.0
         imagePullPolicy: Always
         name: todo-app
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
         ports:
         - containerPort: 5000
           protocol: TCP
@@ -35,7 +44,7 @@ spec:
         - name: DB_NAME
           value: todo
         - name: DB_HOST
-          value: mysql
+          value: todo-db
 ---
 apiVersion: v1
 kind: Service
@@ -48,4 +57,20 @@ spec:
    -  protocol: TCP
       port: 80
       targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-app-ingress
+  annotations:
+    # for GCP environment
+    # kubernetes.io/ingress.class: "gce"
+    # networking.gke.io/managed-certificates: managed-cert
+    # ingress.gcp.kubernetes.io/pre-shared-cert: 'pre-todo-cloudacode'
+spec:
+  defaultBackend:
+    service:
+      name: todo-app-svc
+      port:
+        number: 80
