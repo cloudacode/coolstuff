@@ -11,13 +11,13 @@ spec:
   - host: hello.p.cloudacode.com
     http:
       paths:
-      - path: /*
+      - path: /
         pathType: ImplementationSpecific
         backend:
           service:
             name: hello-world-1
             port:
-              number: 60000
+              number: 80
       - path: /v2
         pathType: ImplementationSpecific
         backend:

@@ -9,5 +9,5 @@ spec:
     version: one
   ports:
   - protocol: TCP
-    port: 60000
-    targetPort: 50000
+    port: 80
+    targetPort: 8080

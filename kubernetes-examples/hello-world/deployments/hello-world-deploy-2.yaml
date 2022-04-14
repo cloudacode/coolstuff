@@ -19,7 +19,7 @@ spec:
         image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
         env:
         - name: "PORT"
-          value: "8080"
+          value: "9090"
         resources:
           limits:
             cpu: 250m
