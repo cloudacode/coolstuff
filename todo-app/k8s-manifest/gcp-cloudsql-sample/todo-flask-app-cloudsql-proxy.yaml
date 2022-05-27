@@ -1,0 +1,68 @@
+# https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine#proxy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-proxy
+  labels:
+    app: todo-app-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app-proxy
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: todo-app-proxy
+    spec:
+      # The service account what you binded
+      serviceAccountName: cloud-sql-sa
+      containers:
+      - image: cloudacode/python-todo:v1.1.0
+        imagePullPolicy: Always
+        name: todo-app-proxy
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        env:
+        - name: DB_USER
+          value: <DB_USER>
+        - name: DB_PASSWORD
+          value: <DB_PASSWORD>
+        - name: DB_NAME
+          value: todo
+        - name: DB_HOST
+          # The Cloud SQL Auth proxy container is in the same pod as sidecar pattern, 
+          # which enables the application to connect to the Cloud SQL Auth proxy using localhost
+          value: localhost
+      # [START cloud_sql_proxy_k8s_container]
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.28.0
+        command:
+          - "/cloud_sql_proxy"
+          - "-ip_address_types=PRIVATE"
+          - "-log_debug_stdout"
+          - "-instances=<INSTANCE_CONNECTION_NAME>=tcp:3306"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          requests:
+            memory: "500Mi"
+            ephemeral-storage: 1Gi
+            cpu:    "250m"
+      # [END cloud_sql_proxy_k8s_container]

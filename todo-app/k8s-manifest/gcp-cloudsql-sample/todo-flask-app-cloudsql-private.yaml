@@ -1,0 +1,48 @@
+# https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine#private-ip
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-private
+  labels:
+    app: todo-app-private
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app-private
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: todo-app-private
+    spec:
+      containers:
+      - image: cloudacode/python-todo:v1.1.0
+        imagePullPolicy: Always
+        name: todo-app-private
+        resources:
+          limits:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 512Mi
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        env:
+        - name: DB_USER
+          value: <DB_USER>
+        - name: DB_PASSWORD
+          value: <DB_PASSWORD>
+        - name: DB_NAME
+          value: todo
+        - name: DB_HOST
+          value: <DB_PRIVATE_IP_ADDR>
