@@ -1,0 +1,17 @@
+version: "2"
+services:
+  simple-mariadb:
+    image: cloudacode/simple-mariadb:latest
+    ports:
+      - "3306:3306"
+  simple-flask-app:
+    links:
+      - simple-mariadb
+    image: cloudacode/simple-flask-app:latest
+    ports:
+      - "8888:5000"
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=mysecret
+      - DB_NAME=cloud_user
+      - DB_HOST=simple-mariadb
